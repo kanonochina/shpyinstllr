@@ -11,3 +11,7 @@ install:
 to run:
 
     $ node index.js
+
+Go to
+
+    localhost:3000
