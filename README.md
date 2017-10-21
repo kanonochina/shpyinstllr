@@ -2,12 +2,12 @@
 
 install:
 
-git clone https://github.com/kanonochina/shpyinstllr.git
+$ git clone https://github.com/kanonochina/shpyinstllr.git
 
-cd shpyinstllr
+$ cd shpyinstllr
 
-npm install
+$ npm install
 
 to run:
 
-node index.js
+$ node index.js
