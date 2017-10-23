@@ -4,24 +4,8 @@ const bodyParser = require("body-parser");
 const app = express();
 
 const puppeteer = require('puppeteer');
-const loginButton = "#LoginSubmit";
 
-const userfield = '#Login';
-const pwfield = '#Password';
-const uploadTheme = "#themes-index > section:nth-child(4) > div > div.ui-annotated-section__annotation > div.ui-annotated-section__description > button";
-const chooseFile = "input[type=file]";
-const uploadButton = "#upload_theme_form > div.ui-modal__footer > div > div.ui-modal__primary-actions > div > button";
-
-
-var generateSampleRefundPolicy = "#settings-shop-policies > div.ui-annotated-section__content > section > div:nth-child(1) > div > div.next-input-wrapper > div > button";
-var getSampleRefundPolicyText = "#shop_refund-policy";
-
-var generateSamplePrivacyPolicy = "#settings-shop-policies > div.ui-annotated-section__content > section > div:nth-child(2) > div > div.next-input-wrapper > div > button";
-var getSamplePrivacyPolicyText = "#shop_privacy-policy";
-
-var generateTermsOfService = "#settings-shop-policies > div.ui-annotated-section__content > section > div:nth-child(3) > div > div.next-input-wrapper > div > button";
-var getTermsOfServiceText = "#shop_terms-of-service";
-
+const selector = require('./configSelector');
 
 async function run(urlstore, user, pword) {
 
@@ -31,56 +15,56 @@ async function run(urlstore, user, pword) {
     let password = pword;
     // Debug
 
-    // const browser = await puppeteer.launch({
-    //     headless: false,
-    //     devtools: true,
-    //     userDataDir: "~/Library/Application Support/Google/Chrome"
-    // });
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({
+        headless: false,
+        devtools: true,
+        userDataDir: "~/Library/Application Support/Google/Chrome"
+    });
+    // const browser = await puppeteer.launch();
     const page = await browser.newPage();
 
-    await page.goto(url);
-    await page.click(userfield);
-    await page.keyboard.type(username);
+    async function adminLogin() {  
+            await page.goto(url);
+            console.log(selector.userfield);
+            await page.click(selector.userfield);
+            await page.keyboard.type(username);
 
-    await page.click(pwfield);
-    await page.keyboard.type(password);
+            await page.click(selector.pwfield);
+            await page.keyboard.type(password);
 
-    await page.click(loginButton, { delay: 10000 });
+            await page.click(selector.loginButton, { delay: 10000 });
 
-    await page.waitForNavigation();
-    console.log("Logged in successfully");
-    await page.goto(url + "/themes");
-
-
+            await page.waitForNavigation();
+            console.log("Logged in successfully");
+    }
 
 
-    await page.click(uploadTheme);
-    const fileUploaders = await page.$$("input[type=file]");
-    await page.waitFor(5000);
- 
-
-    var filePath = __dirname + '/TMM-Shopify-Theme-V2.06-1.zip';
-    console.log("filePath:" + filePath);
-    var inputfileup = await page.$("input[type=file]");
-    await inputfileup.uploadFile(filePath);
-    await page.waitFor(2000);
-
-    //   await page.uploadFile('./Shoptimized_Theme_4.00_1.zip');
-    await page.click(uploadButton);
-    await page.waitFor(60000);
-
-    var actionspop = await page.$(".ui-stack-item.themes-list__actions  > div > button");
-    await actionspop.click();
-    await page.waitFor(2000);
-    var publish = await page.$("#ui-popover--1 > div.ui-popover__content-wrapper > div > div > div:nth-child(1) > ul > li:nth-child(2) > button");
-    await publish.click();
-    await page.waitFor(2000);
-    var confirm = await page.$("form > div.ui-modal__footer > div > div.ui-modal__primary-actions > div > button");
-    await confirm.click();
-    await page.waitFor(2000);
-    console.log("Theme uploaded and installed. Now creating pages");
-
+    async function installTheme() {
+        
+        await page.goto(url + "/themes");
+        await page.click(selector.uploadTheme);
+        const fileUploaders = await page.$$("input[type=file]");
+        await page.waitFor(5000);
+        var filePath = __dirname + '/' + selector.themeZipfile;
+        console.log("filePath:" + filePath);
+        var inputfileup = await page.$("input[type=file]");
+        await inputfileup.uploadFile(filePath);
+        await page.waitFor(2000);
+        await page.click(selector.uploadButton);
+        await page.waitFor(60000);
+    
+        var actionspop = await page.$(selector.firstActions);
+        await actionspop.click();
+        await page.waitFor(2000);
+        var publish = await page.$(selector.firstActionsPublilsh);
+        await publish.click();
+        await page.waitFor(2000);
+        var confirm = await page.$(selector.confirmFirstActionPublish);
+        await confirm.click();
+        await page.waitFor(2000);
+        console.log("Theme uploaded and installed. Now creating pages");
+    }
+    
     async function gotoCheckoutSettings() {
         await page.goto(url + '/settings/checkout');
         await page.waitFor(2000);
@@ -135,15 +119,20 @@ async function run(urlstore, user, pword) {
         await page.waitFor(2000);
     }
 
+
+
+    await adminLogin();
+    await installTheme();
+
     await page.waitFor(2000);
     await gotoCheckoutSettings();   //to get generated text
     await page.waitFor(2000);
-    let refundpage = await getGeneratedText(generateSampleRefundPolicy, getSampleRefundPolicyText);
+    let refundpage = await getGeneratedText(selector.generateSampleRefundPolicy, selector.getSampleRefundPolicyText);
     await page.waitFor(2000);
-    let privacypage = await getGeneratedText(generateSamplePrivacyPolicy, getSamplePrivacyPolicyText);
+    let privacypage = await getGeneratedText(selector.generateSamplePrivacyPolicy, selector.getSamplePrivacyPolicyText);
     await page.waitFor(2000);
 
-    let termspage = await getGeneratedText(generateTermsOfService, getTermsOfServiceText);
+    let termspage = await getGeneratedText(selector.generateTermsOfService, selector.getTermsOfServiceText);
     await page.waitFor(2000);
     await createNewPage("Shipping Returns and Exchanges", refundpage);
     console.log("Shipping Returns and Exchanges page done");
@@ -157,7 +146,6 @@ async function run(urlstore, user, pword) {
     browser.close();
 }
 
-// run();
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -174,5 +162,6 @@ app.post('/login',function(req,res){
   res.end("yes");
 });
 app.listen(3000,function(){
+    console.log(selector.firstActions);
   console.log("Started on PORT 3000");
 })

@@ -15,13 +15,12 @@
         user=$("#user").val();
         pass=$("#pass").val();
         urlstore=$("#urlstore").val();
-        $.post("http://localhost:3000/login",{urlstore: urlstore, user: user,password: pass}, function(data){
-          if(data==='done')
-            {
-                var frm = document.getElementsByClassName('formtosheet');
+        $.post("http://localhost:3000/login",{urlstore: urlstore, user: user,password: pass}, function(){
+         var frm = document.getElementsByClassName('formtosheet');
           var frmhide = document.getElementById('formhide');
           var frmshow = document.getElementById('divshow');
-            }
+          frmhide.style.display ="none";
+        frmshow.style.display ="block";
         });
       });
     });
