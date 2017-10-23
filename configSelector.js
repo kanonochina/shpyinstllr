@@ -13,6 +13,7 @@ module.exports = {
     getSamplePrivacyPolicyText: "#shop_privacy-policy",
     generateTermsOfService: "#settings-shop-policies > div.ui-annotated-section__content > section > div:nth-child(3) > div > div.next-input-wrapper > div > button",
     getTermsOfServiceText: "#shop_terms-of-service",
+    saveEnableStore: ".ui-button.ui-button--primary.js-btn-loadable.js-btn-primary.ui-context-bar__actions-primary",
     themeZipfile: "TMM-Shopify-Theme-V2.06-1.zip"
 };
 

@@ -119,6 +119,22 @@ async function run(urlstore, user, pword) {
         await page.waitFor(2000);
     }
 
+    async function gotoPreferences() {
+        await page.goto(url);
+        await page.goto(url + '/online_store/preferences');
+        await page.waitFor(2000);
+    }
+
+    async function enableStore() {
+        var codeTxt = 0;
+        await page.evaluate((codeTxt) => {
+            console.log(document.querySelector("#shop_password_enabled").checked);
+            if (document.querySelector("#shop_password_enabled").checked) {
+                document.querySelector("#shop_password_enabled").checked = false;
+            }
+        }, codeTxt);
+        await page.click(selector.saveEnableStore);
+    }
 
 
     await adminLogin();
@@ -142,6 +158,9 @@ async function run(urlstore, user, pword) {
     await createContactPage("Contact Us");
     console.log("Contact Us page done");
     await page.waitFor(2000);
+    await gotoPreferences();
+    console.log("Enabling Store");
+    await enableStore();
     console.log("Finished");
     browser.close();
 }
@@ -165,3 +184,5 @@ app.listen(3000,function(){
     console.log(selector.firstActions);
   console.log("Started on PORT 3000");
 })
+
+
