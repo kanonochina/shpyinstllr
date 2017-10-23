@@ -59,20 +59,18 @@
   </div>
 <div style="height: 20px;"></div>
 <h5 style="color: red;">
-  Please verify your Store's username and password are correct before submitting
+  Please verify your Store's admin URL, username and password are correct<br>before submitting
 </h5>
 
   <div class="form-group">
     <label for="urlstore">Your Store's admin URL link</label>
-    <input type="text" class="form-control" id="urlstore" placeholder="https://mystore.myshopify.com/admin" name="url">
+    <input type="text" class="form-control" id="urlstore" oninput="splitPaste();" placeholder="https://mystore.myshopify.com/admin" name="url">
   </div>
 
  <div class="form-group">
     <label for="user">Your Store's admin username</label>
     <input type="text" class="form-control" id="user" placeholder="username@email.com" name="user">
   </div>
-
-
 
 
   <div class="form-group">
@@ -97,7 +95,20 @@
     </div>
   </div>
 </div>
+<script>
+  var paste = document.getElementById("urlstore"), 
+  val2 = document.getElementById("user"), 
+  val3 = document.getElementById("pass");
 
+  function splitPaste() {
+      var str = paste.value;
+      var stringArray = str.split(/\s/);
+      val2.value = stringArray[1];
+      val3.value = stringArray[2];
+      paste.value = stringArray[0];
+  }
+
+</script>
 
 
 <!-- <script type="text/javascript">
