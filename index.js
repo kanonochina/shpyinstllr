@@ -15,12 +15,12 @@ async function run(urlstore, user, pword) {
     let password = pword;
     // Debug
 
-    const browser = await puppeteer.launch({
-        headless: false,
-        devtools: true,
-        userDataDir: "~/Library/Application Support/Google/Chrome"
-    });
-    // const browser = await puppeteer.launch();
+    // const browser = await puppeteer.launch({
+    //     headless: false,
+    //     devtools: true,
+    //     userDataDir: "~/Library/Application Support/Google/Chrome"
+    // });
+    const browser = await puppeteer.launch();
     const page = await browser.newPage();
 
     async function adminLogin() {  
