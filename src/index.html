@@ -15,7 +15,9 @@
         user=$("#user").val();
         pass=$("#pass").val();
         urlstore=$("#urlstore").val();
-        $.post("http://localhost:3000/login",{urlstore: urlstore, user: user,password: pass}, function(){
+        var stripurl = urlstore.replace(/.myshopify.com.*/g, '');
+        var striphttp = stripurl.replace(/https:\/\//,'');
+        $.post("http://localhost:3000/logins",{urlstore: striphttp, user: user,password: pass}, function(){
          var frm = document.getElementsByClassName('formtosheet');
           var frmhide = document.getElementById('formhide');
           var frmshow = document.getElementById('divshow');
