@@ -1,12 +1,11 @@
 
-const express = require("express");
-const bodyParser = require("body-parser");
-const app = express();
+'use strict';
 
 const puppeteer = require('puppeteer');
 
-const selector = require('./configSelector');
+(async() => {
 
+<<<<<<< HEAD
 async function run(urlstore, user, pword) {
 
     
@@ -184,5 +183,13 @@ app.listen(3000,function(){
     console.log(selector.firstActions);
   console.log("Started on PORT 3000");
 })
+=======
+const browser = await puppeteer.launch();
+const page = await browser.newPage();
+await page.goto('http://example.com');
+await page.screenshot({path: 'example.png'});
+>>>>>>> c6f476125e3f0baf16018370a6f993c01a2bdfaa
 
+await browser.close();
 
+})();
