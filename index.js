@@ -15,12 +15,12 @@ async function run(urlstore, user, pword) {
     let password = pword;
     // Debug
 
-    // const browser = await puppeteer.launch({
-    //     headless: false,
-    //     devtools: true,
-    //     userDataDir: "~/Library/Application Support/Google/Chrome"
-    // });
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({
+        headless: false,
+        devtools: true,
+        userDataDir: "~/Library/Application Support/Google/Chrome"
+    });
+    // const browser = await puppeteer.launch();
     const page = await browser.newPage();
 
     
@@ -56,7 +56,6 @@ async function run(urlstore, user, pword) {
         }, codeTxt);
         await page.waitFor(2000);
     }
-
 
 
     async function getAPI() {
@@ -160,7 +159,7 @@ app.post('/login',function(req,res){
   res.end("yes");
 });
 app.listen(3000,function(){
-    console.log(selector.firstActions);
+   
   console.log("Started on PORT 3000");
 })
 
