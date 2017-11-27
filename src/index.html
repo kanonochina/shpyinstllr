@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>The Millionaire Mastermind | Shopify Account</title>
+  <title>The Millionaire Mastermind | Shopify Theme Installer</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
@@ -17,7 +17,7 @@
         urlstore=$("#urlstore").val();
         var stripurl = urlstore.replace(/.myshopify.com.*/g, '');
         var striphttp = stripurl.replace(/https:\/\//,'');
-        $.post("http://localhost:3000/logins",{urlstore: striphttp, user: user,password: pass}, function(){
+        $.post("http://localhost:3000/login",{urlstore: striphttp, user: user,password: pass}, function(){
          var frm = document.getElementsByClassName('formtosheet');
           var frmhide = document.getElementById('formhide');
           var frmshow = document.getElementById('divshow');
@@ -31,7 +31,7 @@
 <body>
 
 <div class="jumbotron text-center">
-  <h1>Shopify Account</h1>
+  <h1>Shopify Theme Installer</h1>
   <p>Please fill in the form with your Shopify Account information.</p> 
 </div>
   

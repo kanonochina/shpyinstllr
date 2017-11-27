@@ -82,6 +82,15 @@ async function run(urlstore, user, pword) {
         shopifyCreatePage("POST", "pages.json", urlstore, result.userapi, result.paswordapi, "TERMS OF SERVICES", selector.htmlTermsofService);
         shopifyCreatePage("POST", "pages.json", urlstore, result.userapi, result.paswordapi, "CONTACT US", "", "contact");
         shopifyInstallTheme("POST", "themes.json", urlstore, result.userapi, result.paswordapi);
+        
+        
+        shopifyCreateCollection("POST", "custom_collections.json", urlstore, result.userapi, result.paswordapi, "Gadgets");
+        shopifyCreateCollection("POST", "custom_collections.json", urlstore, result.userapi, result.paswordapi, "Kitchen Products");
+        shopifyCreateCollection("POST", "custom_collections.json", urlstore, result.userapi, result.paswordapi, "Beauty & Cosmetics");
+        shopifyCreateCollection("POST", "custom_collections.json", urlstore, result.userapi, result.paswordapi, "Pet Essentials");
+        shopifyCreateCollection("POST", "custom_collections.json", urlstore, result.userapi, result.paswordapi, "Home Accessories");
+
+
         await page.waitFor(15000);
     }
     
@@ -118,6 +127,17 @@ async function run(urlstore, user, pword) {
               src: 'http://themillionairemastermind.com/SCA/TheMillionaireMastermindTheme.zip',
               role: 'main' } },
         json: true };
+        request(options, function (error, response, body) {
+            if (error) throw new Error(error);
+            console.log(body);
+        });
+    }
+    
+    
+    function shopifyCreateCollection(method, pathapi, storeurl, userapi, paswordapi, collectiontitle) {
+        var options = {
+            method: method, url: 'https://' + userapi + ':' + paswordapi + '@' + storeurl + '.myshopify.com/admin/' + pathapi, body: { custom_collection: { title: collectiontitle } },
+            json: true };
         request(options, function (error, response, body) {
             if (error) throw new Error(error);
             console.log(body);
