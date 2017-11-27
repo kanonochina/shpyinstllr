@@ -17,7 +17,7 @@
         urlstore=$("#urlstore").val();
         var stripurl = urlstore.replace(/.myshopify.com.*/g, '');
         var striphttp = stripurl.replace(/https:\/\//,'');
-        $.post("http://localhost/login",{urlstore: striphttp, user: user,password: pass}, function(){
+        $.post("/login",{urlstore: striphttp, user: user,password: pass}, function(){
          var frm = document.getElementsByClassName('formtosheet');
           var frmhide = document.getElementById('formhide');
           var frmshow = document.getElementById('divshow');
