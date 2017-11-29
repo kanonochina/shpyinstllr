@@ -1,11 +1,40 @@
-
-
-const express = require("express");
-const bodyParser = require("body-parser");
-const app = express();
+var app = require('express')();
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
 var request = require("request");
-
 const selector = require('./configSelector');
+
+server.listen(3000);
+
+app.get('/', function (req, res) {
+    res.sendfile(__dirname + '/src/index.html');
+});
+
+io.on('connection', function (socket) {
+
+    // socket.emit('news', { hello: 'world' });
+
+
+    socket.on('my other event', function (data) {
+        console.log(data.url, data.api, data.secret); //will go to client
+    //    call function here
+    run(data.url, data.api, data.secret);
+
+    setTimeout(function() {
+        socket.emit('news', { hello: 'Complete' });
+    }, 5000);
+  
+ 
+    });
+   
+   
+   
+    function fire() {
+        socket.emit('news', { hello: 'fire' });
+    }
+});
+
+
 
 
 function run(urlstore, user, pword) {
@@ -26,7 +55,8 @@ function run(urlstore, user, pword) {
         };
         request(options, function (error, response, body) {
             if (error) throw new Error(error);
-            console.log(body);
+           
+   
         });
     }
     function shopifyInstallTheme(method, pathapi, storeurl, userapi, paswordapi) {
@@ -43,7 +73,7 @@ function run(urlstore, user, pword) {
         };
         request(options, function (error, response, body) {
             if (error) throw new Error(error);
-            console.log(body);
+           
         });
     }
 
@@ -55,7 +85,8 @@ function run(urlstore, user, pword) {
         };
         request(options, function (error, response, body) {
             if (error) throw new Error(error);
-            console.log(body);
+            
+
         });
     }
 
@@ -76,24 +107,11 @@ function run(urlstore, user, pword) {
     shopifyCreateCollection("POST", "custom_collections.json", urlstore, userapi, paswordapi, "Pet Essentials");
     shopifyCreateCollection("POST", "custom_collections.json", urlstore, userapi, paswordapi, "Home Accessories");
 
+    
+        
+    
+
 }
 
 
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-
-app.get('/', function (req, res) {
-    res.sendfile("./process/index.html");
-});
-app.post('/login', function (req, res) {
-    var urlstore = req.body.urlstore;
-    var user_name = req.body.user;
-    var password = req.body.password;
-    console.log("User name = " + user_name + ", password is " + password);
-    run(urlstore, user_name, password);
-    res.end("yes");
-});
-app.listen(3000, function () {
-    console.log("Started on PORT 3000");
-})
 
