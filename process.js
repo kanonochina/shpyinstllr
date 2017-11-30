@@ -97,6 +97,7 @@ function run(urlstore, user, pword) {
     shopifyCreatePage("POST", "pages.json", urlstore, userapi, paswordapi, "PRIVACY POLICY", selector.htmlPrivatePolicy);
     shopifyCreatePage("POST", "pages.json", urlstore, userapi, paswordapi, "RETURN POLICY", selector.htmlReturnPolicy);
     shopifyCreatePage("POST", "pages.json", urlstore, userapi, paswordapi, "TERMS OF SERVICES", selector.htmlTermsofService);
+    shopifyCreatePage("POST", "pages.json", urlstore, userapi, paswordapi, "ORDER LOOKUP", selector.htmltrackorder);
     shopifyCreatePage("POST", "pages.json", urlstore, userapi, paswordapi, "CONTACT US", "", "contact");
     shopifyInstallTheme("POST", "themes.json", urlstore, userapi, paswordapi);
 
